@@ -3,10 +3,10 @@ const validate_fund_user = (req) => {
   const schema = Joi.object({
     admin: Joi.string().required().max(1000),
     user: Joi.string().required().max(1000),
-    deposit_amount: Joi.number().required().min(0),
+    deposit_amount: Joi.number().required(),
     profit_loss: Joi.number().required(),
-    active_investment: Joi.number().required().min(0),
-    referral_bonus: Joi.number().required().min(0),
+    active_investment: Joi.number().required(),
+    referral_bonus: Joi.number().required(),
   });
   const result = schema.validate({
     admin: req.admin,
