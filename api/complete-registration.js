@@ -8,6 +8,12 @@ const {
   create_mail_options,
   transporter,
 } = require("../mailer/reg_success_mail");
+
+const {
+  create_referral_mail_options,
+  referral_transporter,
+} = require("../mailer/referral_mail");
+
 const cloudinary = require("../file_handler/cloudinary");
 const upload = require("../file_handler/multer");
 const genToken = require("../token/genToken");
@@ -68,9 +74,20 @@ Router.post("/", upload.any("passport"), verifyToken_01, async (req, res) => {
         //   error: true,
         //   errMessage: `Encounterd an error while trying to send an email to you: ${err.message}, try again`,
         // });
-      }
+      },
     );
 
+    const referral = await User.findOne({ email: user.referral });
+    if (referral) {
+      referral_transporter.sendMail(
+        create_referral_mail_options({
+          reciever: referral.email,
+          referred_user: `${referral.first_name} ${referral.last_name}`,
+        }),
+      );
+    }
+
+   
     res
       .status(200)
       .json({ error: false, message: { user: user_result._id }, token });

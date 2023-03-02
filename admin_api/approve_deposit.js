@@ -56,6 +56,7 @@ Router.post("/", verifyToken, async (req, res) => {
       });
 
     const referral = await User.findOne({ email: user.referral });
+    console.log("referral", referral);
     if (referral) {
       const mypercentage = (parseInt(req.body.deposit_amount) / 100) * 10;
       referral.set({
