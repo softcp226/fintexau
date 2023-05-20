@@ -28,7 +28,7 @@ Router.post("/", async (req, res) => {
       });
     const passwordIsverified = await verifyPassword(
       req.body.password,
-      user.password
+      user.password,
     );
     console.log(passwordIsverified);
     if (passwordIsverified != true)
@@ -39,13 +39,13 @@ Router.post("/", async (req, res) => {
     const token = genToken(user._id);
 
     const check_inv_exp_result = await check_investment_expiration_on_login(
-      user._id
+      user._id,
     );
     console.log(await check_inv_exp_result);
 
     res.status(200).json({
       error: false,
-      message: { user: user._id },
+      message: { user: user._id, pinexist: user.pin ? true : false },
       token,
     });
   } catch (err) {

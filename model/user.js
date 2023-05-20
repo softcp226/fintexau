@@ -48,6 +48,7 @@ const userSchema = mongoose.Schema({
     default: false,
   },
   referral: String,
+  pin: String,
 });
 
 const User = mongoose.model("user", userSchema);
